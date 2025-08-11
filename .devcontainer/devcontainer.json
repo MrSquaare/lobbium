@@ -1,0 +1,16 @@
+{
+	"name": "Debian",
+	"image": "mcr.microsoft.com/devcontainers/base:bookworm",
+	"runArgs": ["--device=/dev/net/tun"],
+	"features": {
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "17",
+			"jdkDistro": "zulu"
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "22"
+		},
+		"ghcr.io/nordcominc/devcontainer-features/android-sdk:1": {},
+		"ghcr.io/tailscale/codespace/tailscale": {}
+	}
+}

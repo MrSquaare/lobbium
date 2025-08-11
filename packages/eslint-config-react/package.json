@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "@lobbium/eslint-config-react",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": {
+      "import": "./index.js"
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "peerDependencies": {
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20"
+  },
+  "devDependencies": {
+    "@lobbium/eslint-config": "workspace:*",
+    "eslint": "^9.33.0"
+  }
+}
