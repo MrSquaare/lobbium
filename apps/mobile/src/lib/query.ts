@@ -6,7 +6,7 @@ onlineManager.setEventListener((setOnline) => {
     setOnline(!!state.isConnected);
   });
 
-  return listener.remove;
+  return () => listener.remove();
 });
 
 export const queryClient = new QueryClient();
