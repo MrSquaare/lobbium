@@ -47,8 +47,12 @@ export default function SignUp() {
         <form.Field name={"name"}>
           {(field) => (
             <TextInput
+              autoCapitalize={"none"}
+              autoComplete={"username"}
+              autoCorrect={false}
               onChangeText={field.handleChange}
               placeholder={"Name"}
+              textContentType={"username"}
               value={field.state.value}
             />
           )}
@@ -56,8 +60,13 @@ export default function SignUp() {
         <form.Field name={"email"}>
           {(field) => (
             <TextInput
+              autoCapitalize={"none"}
+              autoComplete={"email"}
+              autoCorrect={false}
+              keyboardType={"email-address"}
               onChangeText={field.handleChange}
               placeholder={"Email"}
+              textContentType={"emailAddress"}
               value={field.state.value}
             />
           )}
@@ -65,8 +74,13 @@ export default function SignUp() {
         <form.Field name={"password"}>
           {(field) => (
             <TextInput
+              autoCapitalize={"none"}
+              autoComplete={"password"}
+              autoCorrect={false}
               onChangeText={field.handleChange}
               placeholder={"Password"}
+              secureTextEntry
+              textContentType={"password"}
               value={field.state.value}
             />
           )}
