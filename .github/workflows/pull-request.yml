@@ -95,7 +95,7 @@ jobs:
       - name: Cache CocoaPods
         uses: actions/cache@v4
         with:
-          path: $EAS_LOCAL_BUILD_WORKINGDIR/ios/Pods
+          path: $EAS_LOCAL_BUILD_WORKINGDIR/build/apps/mobile/ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
@@ -103,7 +103,7 @@ jobs:
       - name: Cache Xcode derived data
         uses: actions/cache@v4
         with:
-          path: $EAS_LOCAL_BUILD_WORKINGDIR/.build
+          path: $EAS_LOCAL_BUILD_WORKINGDIR/build/apps/mobile/ios/build
           key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('apps/mobile/ios/*.xcodeproj/project.pbxproj', 'apps/mobile/ios/*.xcworkspace/contents.xcworkspacedata') }}
           restore-keys: |
             ${{ runner.os }}-xcode-deriveddata-
