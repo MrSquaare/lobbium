@@ -14,7 +14,10 @@
     },
     "ios": {
       "bundleIdentifier": "fr.lobbium.app",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "fr.lobbium.app",
@@ -32,6 +35,11 @@
       "expo-secure-store",
       "react-native-edge-to-edge",
       "expo-web-browser"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "c61a5c5b-a0b4-4083-a905-04650a3e48cf"
+      }
+    }
   }
 }
