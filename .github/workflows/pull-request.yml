@@ -68,6 +68,7 @@ jobs:
         with:
           eas-version: latest
           packager: pnpm
+          token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build
         working-directory: ./apps/mobile
@@ -100,6 +101,7 @@ jobs:
         with:
           eas-version: latest
           packager: pnpm
+          token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build
         working-directory: ./apps/mobile
