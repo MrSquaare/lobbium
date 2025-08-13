@@ -75,7 +75,7 @@ jobs:
         run: eas build --local --platform android --profile development --non-interactive
 
   mobile-ios-build:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v5
         with:
@@ -91,6 +91,14 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
+
+      - name: Cache Xcode derived data
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('apps/mobile/ios/*.xcodeproj/project.pbxproj', 'apps/mobile/ios/*.xcworkspace/contents.xcworkspacedata') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-deriveddata-
 
       - name: Install Fastlane
         shell: bash
