@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "name": "@lobbium/root",
+  "scripts": {
+    "dev": "turbo dev --continue",
+    "build": "turbo build",
+    "preview": "turbo preview",
+    "lint": "turbo lint --continue",
+    "lint:fix": "turbo lint:fix --continue",
+    "clean": "turbo clean --continue && del-cli node_modules/.cache/ .turbo/ **/.turbo/",
+    "deps:update": "ncu --root -ws -t semver",
+    "deps:upgrade": "ncu --root -ws -u -t semver",
+    "docker:dev": "docker compose -f docker-compose.dev.yml up",
+    "docker:dev:clean": "docker compose -f docker-compose.dev.yml down --remove-orphans --volumes"
+  },
+  "dependencies": {
+    "del-cli": "^6.0.0",
+    "npm-check-updates": "^18.0.2",
+    "turbo": "^2.5.5"
+  },
+  "packageManager": "pnpm@10.14.0"
+}

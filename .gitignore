@@ -1,0 +1,18 @@
+# Node
+node_modules/
+**/node_modules/
+
+# pnpm
+.pnpm-store/
+
+# Environment
+.env
+**/.env
+
+# Turbo
+.turbo/
+**/.turbo/
+
+# macOS
+.DS_Store
+**/.DS_Store
