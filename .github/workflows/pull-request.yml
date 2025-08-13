@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   server-checks:
     runs-on: ubuntu-latest
@@ -56,7 +60,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-
+        with:
+          cache-read-only: false
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
@@ -76,6 +81,9 @@ jobs:
 
   mobile-ios-build:
     runs-on: macos-15
+    env:
+      EAS_LOCAL_BUILD_SKIP_CLEANUP: 1
+      EAS_LOCAL_BUILD_WORKINGDIR: ${{ github.workspace }}/.eas-local-build-workingdir
     steps:
       - uses: actions/checkout@v5
         with:
@@ -87,7 +95,7 @@ jobs:
       - name: Cache CocoaPods
         uses: actions/cache@v4
         with:
-          path: apps/mobile/ios/Pods
+          path: $EAS_LOCAL_BUILD_WORKINGDIR/ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
@@ -95,7 +103,7 @@ jobs:
       - name: Cache Xcode derived data
         uses: actions/cache@v4
         with:
-          path: ~/Library/Developer/Xcode/DerivedData
+          path: $EAS_LOCAL_BUILD_WORKINGDIR/.build
           key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('apps/mobile/ios/*.xcodeproj/project.pbxproj', 'apps/mobile/ios/*.xcworkspace/contents.xcworkspacedata') }}
           restore-keys: |
             ${{ runner.os }}-xcode-deriveddata-
