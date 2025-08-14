@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   server-checks:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
         with:
@@ -67,12 +67,6 @@ jobs:
         with:
           cache-read-only: false
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          accept-android-sdk-licenses: true
-          log-accepted-android-sdk-licenses: false
-
       - name: Build
         working-directory: ./apps/mobile/android
         run: ./gradlew assembleDebug
@@ -109,4 +103,4 @@ jobs:
 
       - name: Build
         working-directory: ./apps/mobile/ios
-        run: xcodebuild build -workspace Lobbium.xcworkspace -scheme Lobbium -configuration Debug -sdk iphonesimulator -derivedDataPath build | xcbeautify
+        run: set -o pipefail && xcodebuild build -workspace Lobbium.xcworkspace -scheme Lobbium -configuration Debug -sdk iphonesimulator18.5 -derivedDataPath build | xcbeautify
