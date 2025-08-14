@@ -52,6 +52,10 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
+      - name: Generate prebuild
+        working-directory: ./apps/mobile
+        run: pnpm expo prebuild --platform android --clean
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -62,28 +66,19 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: false
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
           accept-android-sdk-licenses: true
           log-accepted-android-sdk-licenses: false
 
-      - name: Setup EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          packager: pnpm
-          token: ${{ secrets.EXPO_TOKEN }}
-
       - name: Build
-        working-directory: ./apps/mobile
-        run: eas build --local --platform android --profile development --non-interactive
+        working-directory: ./apps/mobile/android
+        run: ./gradlew assembleDebug
 
   mobile-ios-build:
     runs-on: macos-15
-    env:
-      EAS_LOCAL_BUILD_SKIP_CLEANUP: 1
-      EAS_LOCAL_BUILD_WORKINGDIR: ${{ github.workspace }}/.eas-local-build-workingdir
     steps:
       - uses: actions/checkout@v5
         with:
@@ -92,10 +87,14 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
+      - name: Generate prebuild
+        working-directory: ./apps/mobile
+        run: pnpm expo prebuild --platform ios --clean
+
       - name: Cache CocoaPods
         uses: actions/cache@v4
         with:
-          path: ${{ env.EAS_LOCAL_BUILD_WORKINGDIR }}/build/apps/mobile/ios/Pods
+          path: apps/mobile/ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
@@ -103,22 +102,11 @@ jobs:
       - name: Cache Xcode derived data
         uses: actions/cache@v4
         with:
-          path: ${{ env.EAS_LOCAL_BUILD_WORKINGDIR }}/build/apps/mobile/ios/build
+          path: apps/mobile/ios/build
           key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('apps/mobile/ios/*.xcodeproj/project.pbxproj', 'apps/mobile/ios/*.xcworkspace/contents.xcworkspacedata') }}
           restore-keys: |
             ${{ runner.os }}-xcode-deriveddata-
 
-      - name: Install Fastlane
-        shell: bash
-        run: sudo gem install fastlane
-
-      - name: Setup EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          packager: pnpm
-          token: ${{ secrets.EXPO_TOKEN }}
-
       - name: Build
-        working-directory: ./apps/mobile
-        run: eas build --local --platform ios --profile development --non-interactive
+        working-directory: ./apps/mobile/ios
+        run: xcodebuild build -workspace Lobbium.xcworkspace -scheme Lobbium -configuration Debug -sdk iphonesimulator -derivedDataPath build | xcbeautify
