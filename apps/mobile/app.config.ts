@@ -8,6 +8,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: "lobbium",
   scheme: "lobbium",
   version: "0.0.0",
+  platforms: ["android", "ios"],
   orientation: "portrait",
   icon: "./assets/icon.png",
   newArchEnabled: true,
@@ -30,9 +31,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: "#ffffff",
     },
     edgeToEdgeEnabled: true,
-  },
-  web: {
-    favicon: "./assets/favicon.png",
   },
   plugins: [
     "expo-router",
