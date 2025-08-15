@@ -68,7 +68,7 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('apps/mobile/android/*.gradle*', 'apps/mobile/android/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
@@ -93,8 +93,8 @@ jobs:
         working-directory: ./apps/mobile
         run: pnpm expo prebuild --platform ios --clean --no-install
 
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
+      - name: Restore CocoaPods Cache
+        uses: actions/cache/restore@v4
         with:
           path: apps/mobile/ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/Podfile.lock') }}
@@ -105,11 +105,17 @@ jobs:
         working-directory: ./apps/mobile/ios
         run: pod install
 
+      - name: Save CocoaPods Cache
+        uses: actions/cache/save@v4
+        with:
+          path: apps/mobile/ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/Podfile.lock') }}
+
       - name: Cache Xcode derived data
         uses: actions/cache@v4
         with:
           path: apps/mobile/ios/build
-          key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('apps/mobile/ios/*.xcodeproj/project.pbxproj', 'apps/mobile/ios/*.xcworkspace/contents.xcworkspacedata') }}
+          key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('apps/mobile/app.config.ts', 'apps/mobile/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-xcode-deriveddata-
 
