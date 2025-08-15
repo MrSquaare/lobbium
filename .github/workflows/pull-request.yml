@@ -54,7 +54,7 @@ jobs:
 
       - name: Generate prebuild
         working-directory: ./apps/mobile
-        run: pnpm expo prebuild --platform android --clean
+        run: pnpm expo prebuild --platform android --clean --no-install
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -86,7 +86,7 @@ jobs:
 
       - name: Generate prebuild
         working-directory: ./apps/mobile
-        run: pnpm expo prebuild --platform ios --clean
+        run: pnpm expo prebuild --platform ios --clean --no-install
 
       - name: Cache CocoaPods
         uses: actions/cache@v4
@@ -95,6 +95,10 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods
+        working-directory: ./apps/mobile/ios
+        run: pod install
 
       - name: Cache Xcode derived data
         uses: actions/cache@v4
