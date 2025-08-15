@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "expo start",
+    "export": "expo export",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "lint": "eslint .",
