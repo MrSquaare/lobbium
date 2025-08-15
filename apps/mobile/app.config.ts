@@ -39,6 +39,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-secure-store",
     "react-native-edge-to-edge",
     "expo-web-browser",
+    "./plugins/custom-gradle-properties.ts",
   ],
   extra: {
     eas: {
